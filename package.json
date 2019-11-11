@@ -1,0 +1,22 @@
+{
+  "name": "focuslight-services",
+  "version": "1.0.0",
+  "description": "FocusLight Node.js powered backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivanvmoreno/focuslight-services.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivanvmoreno/focuslight-services/issues"
+  },
+  "homepage": "https://github.com/ivanvmoreno/focuslight-services#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
