@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const { STAGES, SERVER } = require('./config/constants')
+require('dotenv').config()
 
 const app = express()
 
