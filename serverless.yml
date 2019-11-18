@@ -1,0 +1,28 @@
+service: focuslight-services
+
+provider:
+  name: google
+  runtime: nodejs10
+  project: focuslight
+  credentials: ~/.gcloud/keyfile.json
+
+custom:
+  dotenv:
+    include:
+      - FIREBASE_AUTH
+
+plugins:
+  - serverless-google-cloudfunctions
+  - serverless-dotenv-plugin
+
+functions:
+  services:
+    handler: handler
+    events:
+      - http: path
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**

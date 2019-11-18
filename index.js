@@ -1,4 +1,5 @@
-const routes = require('./routes/')
+const serverless = require('serverless-http')
+const routes = require('./routes')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -17,4 +18,4 @@ if (STAGES.DEVELOPMENT.includes(process.env.STAGE))
         SERVER.DEV_PORT, 
         () => console.log(`👷 Development server listening on port ${SERVER.DEV_PORT}`))
 
-module.exports = app
+module.exports.handler = serverless(app)
