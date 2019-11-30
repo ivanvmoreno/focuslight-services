@@ -1,10 +1,10 @@
 service: focuslight-services
 
 provider:
-  name: google
-  runtime: nodejs10
-  project: focuslight
-  credentials: ~/.gcloud/keyfile.json
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: eu-west-3
 
 custom:
   dotenv:
@@ -12,17 +12,22 @@ custom:
       - FIREBASE_AUTH
 
 plugins:
-  - serverless-google-cloudfunctions
   - serverless-dotenv-plugin
 
 functions:
   services:
-    handler: handler
+    handler: index.handler
     events:
-      - http: path
+      - http: # API Gateway HTTP event trigger
+          path: /
+          method: ANY
+          cors: true
+      - http: # Routes get proxied to Express
+          path: /{proxy+}
+          method: ANY
+          cors: true
 
 package:
   exclude:
-    - node_modules/**
     - .gitignore
     - .git/**

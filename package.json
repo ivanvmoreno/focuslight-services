@@ -4,8 +4,8 @@
   "description": "FocusLight Node.js powered backend",
   "main": "index.js",
   "scripts": {
-    "start": "STAGE=dev nodemon -r dotenv/config app.js",
-    "debug": "STAGE=debug nodemon -r dotenv/config --inspect app.js --exec "
+    "start": "STAGE=dev nodemon -r dotenv/config index.js",
+    "debug": "STAGE=debug nodemon -r dotenv/config --inspect index.js --exec "
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
     "express": "^4.17.1",
     "firebase": "^7.3.0",
     "nodemon": "^1.19.4",
-    "serverless-google-cloudfunctions": "^2.3.3",
     "serverless-http": "^2.3.0"
   },
   "devDependencies": {

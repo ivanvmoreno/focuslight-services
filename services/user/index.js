@@ -5,8 +5,9 @@ const ERRORS = require('../../config/errors')
 
 const getUserStatus = async ({ params: { id } }, res) => {
     const snapshot = await db.collection(COLLECTIONS.USERS).doc(id).get()
-    if (!ref.exists) res.status(400).send(ERRORS.NOT_FOUND)
-    res.send(snapshot.data().focused)
+    if (!snapshot.exists) res.status(400).send(ERRORS.NOT_FOUND)
+    const { focused } = snapshot.data()
+    res.send({ focused })
 }
 
 const postUserStatus = async ({ query: { focused }, params: { id } }, res) => {
