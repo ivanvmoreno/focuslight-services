@@ -1,10 +1,4 @@
 module.exports = {
-    DATABASE: {
-        COLLECTIONS: {
-            USERS: 'users',
-            TEAMS: 'teams',
-        }
-    },
     STAGES: {
         DEVELOPMENT: [
             'dev',

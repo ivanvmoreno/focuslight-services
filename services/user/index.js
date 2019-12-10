@@ -1,28 +1,28 @@
-const db = require('../Database')
+const userModel = require('../../models/User')
 const logger = require('../../modules/logger')
-const { DATABASE: { COLLECTIONS } } = require('../../config/constants')
 const ERRORS = require('../../config/errors')
 
 const getUserStatus = async ({ params: { id } }, res) => {
-    const snapshot = await db.collection(COLLECTIONS.USERS).doc(id).get()
-    if (!snapshot.exists) res.status(400).send(ERRORS.NOT_FOUND)
-    const { focused } = snapshot.data()
-    res.send({ focused })
+    try {
+        const user = await userModel.findOne({ id: parseInt(id) })
+        const { focused } = user
+        res.send({ focused })
+    } catch(err) {
+        res.status(400).send(ERRORS.NOT_FOUND)
+    }
 }
 
+
 const postUserStatus = async ({ query: { focused }, params: { id } }, res) => {
-    const ref = await db.collection(COLLECTIONS.USERS).doc(id)
     try {
-        await ref.update({ focused })
+        const user = await userModel.findOne({ id: parseInt(id) })
+        user.focused = focused
+        await user.save()
         logger.info(`Updated user ${id} status to ${focused ? 'focused' : 'not focused'}`)
-        const updatedSnapshot = await ref.get()
-        res.send(updatedSnapshot.data())
-    } catch (error) {
-        logger.error(error)
-        const snapshot = await ref.get()
-        if (!snapshot.exists) res.status(400).send(ERRORS.NOT_FOUND)
-        res.status(500).send(ERRORS.INTERNAL_ERROR)
-    }
+        res.sendStatus(200)
+    } catch(err) {
+        res.sendStatus(500)
+    }   
 }
 
 module.exports = {
