@@ -1,5 +1,5 @@
 const teamModel = require('../../models/Team')
-const logger = require('../../modules/logger')
+const logger = require('../../libraries/logger')
 const ERRORS = require('../../config/errors')
 const ObjectId = require('mongoose').Types.ObjectId
 

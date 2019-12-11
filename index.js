@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const logger = require('./modules/logger')
+const logger = require('./libraries/logger')
 const { STAGES, SERVER } = require('./config/constants')
 require('dotenv').config()
 
