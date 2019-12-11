@@ -33,7 +33,7 @@ const createUser = async ({ body }, res) => {
         const { email, name, team = undefined } = body
         const user = new userModel({ email, name, team })
         await user.save()
-        logger.info(`User ${user.id} created`)
+        logger.info(`User ${user._id} created`)
         res.sendStatus(200)
     } catch(err) {
         logger.error(err)
