@@ -4,43 +4,36 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
+        trim: true,
     },
     focused: {
         type: Boolean,
         default: false,
     },
-    id: {
-        type: Number,
-        unique: true,
-        required: true,
-        min: 1,
-    },
     name: {
         first: {
             type: String,
             required: true,
+            trim: true,
         },
         last: {
             type: String,
             required: true,
+            trim: true,
         },
     },
-    team: Number,
+    team: mongoose.Schema.Types.ObjectId,
     webhooks: [{
-        name: String,
-        endpoint: String,
+        name: {
+            type: String,
+            trim: true,
+        },
+        endpoint: {
+            type: String,
+            trim: true,
+        },
     }],
 })
 
-const userModel = mongoose.model('User', userSchema)
-
-// Middleware to enforce auto-increment of User.id
-userSchema.pre('save', async next => {
-    if (this.isNew) {
-        this.id = await userModel.count()
-    } else {
-        next()
-    }
-})
-
-module.exports = userModel
+module.exports = mongoose.model('User', userSchema)

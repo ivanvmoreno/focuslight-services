@@ -1,33 +1,28 @@
 const mongoose = require('mongoose')
 
 const teamSchema = new mongoose.Schema({
-    email: String,
-    id: {
-        type: Number,
-        unique: true,
+    email: {
+        type: String,
         required: true,
-        min: 1,
+        unique: true,
+        trim: true,
     },
     name: {
         type: String,
         required: true,
+        trim: true,
     },
-    users: [Number],
+    users: [mongoose.Schema.Types.ObjectId],
     webhooks: [{
-        name: String,
-        endpoint: String,
+        name: {
+            type: String,
+            trim: true,
+        },
+        endpoint: {
+            type: String,
+            trim: true,
+        },
     }],
 })
 
-const teamModel = mongoose.Model('Team', teamSchema)
-
-// Middleware to enforce auto-increment of Team.id
-teamSchema.pre('save', async next => {
-    if (this.isNew) {
-        this.id = await teamModel.count()
-    } else {
-        next()
-    }
-})
-
-module.exports = teamModel
+module.exports = mongoose.Model('Team', teamSchema)
