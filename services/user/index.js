@@ -15,6 +15,12 @@ const getUserStatus = async ({ params: { id } }, res) => {
     }
 }
 
+const getUsersList = async (req, res) => {
+    const users = await userModel.find({})
+    const usersMap = {}
+    users.forEach(user => usersMap[user._id] = user)
+    res.send(usersMap)
+}
 
 const postUserStatus = async ({ query: { focused }, params: { id } }, res) => {
     try {
@@ -42,5 +48,6 @@ const createUser = async ({ body }, res) => {
 module.exports = {
     createUser,
     getUserStatus,
+    getUsersList,
     postUserStatus
 }

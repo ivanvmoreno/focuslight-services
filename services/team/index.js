@@ -15,6 +15,13 @@ const createTeam = async ({ body }, res) => {
     }
 }
 
+const getTeamList = async (req, res) => {
+    const teams = await userModel.find({})
+    const teamsMap = {}
+    teams.forEach(team => teamsMap[user._id] = team)
+    res.send(teamsMap)
+}
+
 const getTeamWebhooks = async (teamId) => {
     const team = await teamModel.findOne({ _id: new ObjectId(teamId) })
     return team.webhooks
@@ -22,5 +29,6 @@ const getTeamWebhooks = async (teamId) => {
 
 module.exports = {
     createTeam,
-    getTeamWebhooks
+    getTeamWebhooks,
+    getTeamList,
 }
