@@ -1,4 +1,5 @@
 const userModel = require('../../models/User')
+const { handleUserStatusChange, userToJson } = require('../mqtt/handleStatusChange')
 const logger = require('../../libraries/logger')
 const ERRORS = require('../../config/errors')
 const ObjectId = require('mongoose').Types.ObjectId
@@ -7,7 +8,7 @@ const getUserStatus = async ({ params: { id } }, res) => {
     try {
         const user = await userModel.findOne({ _id: new ObjectId(id) })
         const { focused } = user
-        res.send({ focused })
+        res.send(userToJson(id, focused))
     } catch(err) {
         logger.error(err)
         res.status(400).send(ERRORS.NOT_FOUND)
@@ -17,10 +18,7 @@ const getUserStatus = async ({ params: { id } }, res) => {
 
 const postUserStatus = async ({ query: { focused }, params: { id } }, res) => {
     try {
-        const user = await userModel.findOne({ _id: new ObjectId(id) })
-        user.focused = focused
-        await user.save()
-        logger.info(`Updated user ${id} status to ${focused ? 'focused' : 'not focused'}`)
+        await handleUserStatusChange(id, focused)
         res.sendStatus(200)
     } catch(err) {
         logger.error(err)

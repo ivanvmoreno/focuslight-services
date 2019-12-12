@@ -1,6 +1,5 @@
 const teamModel = require('../../models/Team')
 const logger = require('../../libraries/logger')
-const ERRORS = require('../../config/errors')
 const ObjectId = require('mongoose').Types.ObjectId
 
 const createTeam = async ({ body }, res) => {
@@ -16,6 +15,12 @@ const createTeam = async ({ body }, res) => {
     }
 }
 
+const getTeamWebhooks = async (teamId) => {
+    const team = await teamModel.findOne({ _id: new ObjectId(teamId) })
+    return team.webhooks
+}
+
 module.exports = {
     createTeam,
+    getTeamWebhooks
 }

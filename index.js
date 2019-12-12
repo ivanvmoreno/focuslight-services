@@ -1,4 +1,5 @@
 const routes = require('./routes')
+const mqttService = require('./services/mqtt')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -13,6 +14,7 @@ const app = express()
 
 try {
     mongoose.connect(mongoString, { useNewUrlParser: true })
+    mqttService.listen()
 } catch(err) {
     logger.error(err)
 }
