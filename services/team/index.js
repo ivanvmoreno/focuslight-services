@@ -16,9 +16,9 @@ const createTeam = async ({ body }, res) => {
 }
 
 const getTeamList = async (req, res) => {
-    const teams = await userModel.find({})
+    const teams = await teamModel.find({})
     const teamsMap = {}
-    teams.forEach(team => teamsMap[user._id] = team)
+    teams.forEach(team => teamsMap[team._id] = team)
     res.send(teamsMap)
 }
 
@@ -27,8 +27,23 @@ const getTeamWebhooks = async (teamId) => {
     return team.webhooks
 }
 
+const addUserToTeam = async ({ query: { users }, params: { id: teamId } }, res) => {
+    try {
+        if (!Array.isArray(users)) users = [users]
+        users = users.map(user => new ObjectId(user))
+        const team = await teamModel.findOne({ _id: new ObjectId(teamId) })
+        team.users = [...users, ...team.users]
+        await team.save()
+        res.send(team)
+    } catch(err) {
+        logger.error(err)
+        res.sendStatus(500)
+    }
+}
+
 module.exports = {
     createTeam,
     getTeamWebhooks,
     getTeamList,
+    addUserToTeam,
 }
