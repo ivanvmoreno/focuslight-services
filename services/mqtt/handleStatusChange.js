@@ -14,7 +14,7 @@ const parseMqttMessage = message => JSON.parse(message.toString())
 const triggerWebhooks = (webhooks, payload) => {
     return Promise.all(webhooks.map(e => 
         fetch(e.endpoint, { 
-            type: 'post', 
+            method: 'post', 
             headers: { 'Content-Type': 'application/json' },
             body: payload,
         })
