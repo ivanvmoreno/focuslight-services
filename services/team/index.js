@@ -1,4 +1,5 @@
 const teamModel = require('../../models/Team')
+const userModel = require('../../models/User')
 const logger = require('../../libraries/logger')
 const ObjectId = require('mongoose').Types.ObjectId
 
@@ -34,6 +35,11 @@ const addUserToTeam = async ({ query: { users }, params: { id: teamId } }, res) 
         const team = await teamModel.findOne({ _id: new ObjectId(teamId) })
         team.users = [...users, ...team.users]
         await team.save()
+        await Promise.all(users.map(async userId => {
+            const doc = await userModel.findOne({ _id: userId })
+            doc.team = team._id
+            await doc.save()
+        }))
         res.send(team)
     } catch(err) {
         logger.error(err)
